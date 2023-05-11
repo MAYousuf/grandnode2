@@ -305,7 +305,7 @@ namespace Grand.Business.Authentication.Services
                 throw new ArgumentNullException(nameof(parameters));
 
             var associationRecord = (from q in _externalAuthenticationRecordRepository.Table
-                                     where q.ExternalIdentifier.ToLowerInvariant() == parameters.Identifier
+                                     where q.ExternalIdentifier.ToLowerInvariant() == parameters.Identifier.ToLowerInvariant()
                                      && q.ProviderSystemName.ToLowerInvariant() == parameters.ProviderSystemName.ToLowerInvariant()
                                      select q).FirstOrDefault();
 
