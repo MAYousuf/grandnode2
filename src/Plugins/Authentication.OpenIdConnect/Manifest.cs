@@ -1,12 +1,12 @@
-﻿using Authentication.Google;
+﻿using Authentication.OpenIdConnect;
 using Grand.Infrastructure;
 using Grand.Infrastructure.Plugins;
 
 [assembly: PluginInfo(
-    FriendlyName = "Google authentication",
+    FriendlyName = "OpenIdConnect authentication",
     Group = "Authentication methods",
-    SystemName = GoogleAuthenticationDefaults.ProviderSystemName,
+    SystemName = OpenIdAuthenticationDefaults.ProviderSystemName,
     SupportedVersion = GrandVersion.SupportedPluginVersion,
-    Author = "grandnode team",
-    Version = "2.1.1"
+    Author = "Mohamed Yousuf",
+    Version = "0.0.1"
 )]

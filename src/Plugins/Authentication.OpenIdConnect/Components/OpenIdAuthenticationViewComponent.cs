@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Authentication.Google.Components
+namespace Authentication.OpenIdConnect.Components
 {
     [ViewComponent(Name = "OpenIdAuthentication")]
     public class OpenIdAuthenticationViewComponent : ViewComponent

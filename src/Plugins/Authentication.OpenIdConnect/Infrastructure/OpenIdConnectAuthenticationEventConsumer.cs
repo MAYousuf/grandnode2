@@ -6,12 +6,12 @@ using Grand.Infrastructure;
 using MediatR;
 using System.Security.Claims;
 
-namespace Authentication.Google.Infrastructure.Cache
+namespace Authentication.OpenIdConnect.Infrastructure.Cache
 {
     /// <summary>
     /// Google authentication event consumer (used for saving customer fields on registration)
     /// </summary>
-    public class GoogleAuthenticationEventConsumer : INotificationHandler<RegisteredByExternalMethod>
+    public class OpenIdConnectAuthenticationEventConsumer : INotificationHandler<RegisteredByExternalMethod>
     {
         #region Fields
 
@@ -24,7 +24,7 @@ namespace Authentication.Google.Infrastructure.Cache
 
         #region Ctor
 
-        public GoogleAuthenticationEventConsumer(
+        public OpenIdConnectAuthenticationEventConsumer(
             IUserFieldService userFieldService,
             IMessageProviderService messageProviderService,
             IWorkContext workContext,
@@ -47,7 +47,7 @@ namespace Authentication.Google.Infrastructure.Cache
                 return;
 
             //handle event only for this authentication method
-            if (!eventMessage.AuthenticationParameters.ProviderSystemName.Equals(GoogleAuthenticationDefaults
+            if (!eventMessage.AuthenticationParameters.ProviderSystemName.Equals(OpenIdAuthenticationDefaults
                     .ProviderSystemName))
                 return;
 

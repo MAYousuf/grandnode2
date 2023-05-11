@@ -1,6 +1,6 @@
 ﻿using Grand.Domain.Configuration;
 
-namespace Authentication.Google
+namespace Authentication.OpenIdConnect
 {
     public class OpenIdConnectExternalAuthSettings : ISettings
     {        

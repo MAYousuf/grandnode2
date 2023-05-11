@@ -1,4 +1,4 @@
-﻿using Authentication.Google.Models;
+﻿using Authentication.OpenIdConnect.Models;
 using Grand.Business.Core.Interfaces.Common.Configuration;
 using Grand.Business.Core.Interfaces.Common.Localization;
 using Grand.Business.Core.Interfaces.Common.Security;
@@ -9,7 +9,7 @@ using Grand.Web.Common.Security.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 
-namespace Authentication.Google.Controllers
+namespace Authentication.OpenIdConnect.Controllers
 {
     [AuthorizeAdmin]
     [Area("Admin")]
@@ -18,7 +18,7 @@ namespace Authentication.Google.Controllers
     {
         #region Fields
 
-        private readonly OpenIdConnectExternalAuthSettings _googleExternalAuthSettings;
+        private readonly OpenIdConnectExternalAuthSettings _oidcExternalAuthSettings;
         private readonly ITranslationService _translationService;
         private readonly IPermissionService _permissionService;
         private readonly ISettingService _settingService;
@@ -29,13 +29,13 @@ namespace Authentication.Google.Controllers
         #region Ctor
 
         public OpenIdAuthenticationSettingsController(
-            OpenIdConnectExternalAuthSettings googleExternalAuthSettings,
+            OpenIdConnectExternalAuthSettings oidcExternalAuthSettings,
             ITranslationService translationService,
             IPermissionService permissionService,
             ISettingService settingService,
             IConfiguration configuration)
         {
-            _googleExternalAuthSettings = googleExternalAuthSettings;
+            _oidcExternalAuthSettings = oidcExternalAuthSettings;
             _translationService = translationService;
             _permissionService = permissionService;
             _settingService = settingService;
@@ -53,9 +53,12 @@ namespace Authentication.Google.Controllers
                 return AccessDeniedView();
 
             var model = new ConfigurationModel {
-                ClientKeyIdentifier = _configuration["GoogleSettings:ClientId"],
-                ClientSecret = _configuration["GoogleSettings:ClientSecret"],
-                DisplayOrder = _googleExternalAuthSettings.DisplayOrder
+                ClientKeyIdentifier = _configuration["OpenIDConnectSettings:ClientId"],
+                ClientSecret = _configuration["OpenIDConnectSettings:ClientSecret"],
+                Authority = _configuration["OpenIDConnectSettings:Authority"],
+                CallbackPath = _configuration["OpenIDConnectSettings:CallbackPath"],
+                RequireHttpsMetadata = false,
+                DisplayOrder = _oidcExternalAuthSettings.DisplayOrder
             };
 
             return View(model);
@@ -70,9 +73,9 @@ namespace Authentication.Google.Controllers
             if (!ModelState.IsValid)
                 return await Configure();
 
-            _googleExternalAuthSettings.DisplayOrder = model.DisplayOrder;
+            _oidcExternalAuthSettings.DisplayOrder = model.DisplayOrder;
 
-            await _settingService.SaveSetting(_googleExternalAuthSettings);
+            await _settingService.SaveSetting(_oidcExternalAuthSettings);
 
             //now clear settings cache
             await _settingService.ClearCache();

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Routing;
 
-namespace Authentication.Google
+namespace Authentication.OpenIdConnect
 {
     public class EndpointProvider : IEndpointProvider
     {

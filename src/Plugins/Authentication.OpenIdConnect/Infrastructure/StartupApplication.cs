@@ -5,13 +5,13 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Authentication.Google
+namespace Authentication.OpenIdConnect
 {
     public class StartupApplication : IStartupApplication
     {
         public void ConfigureServices(IServiceCollection services, IConfiguration configuration)
         {
-            services.AddScoped<IExternalAuthenticationProvider, GoogleAuthenticationProvider>();
+            services.AddScoped<IExternalAuthenticationProvider, OpenIdConnectAuthenticationProvider>();
         }
 
         public int Priority => 10;

@@ -19,13 +19,11 @@
   </Target>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.Authentication.Google" Version="6.0.16" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.OpenIdConnect" Version="6.0.16" />
   </ItemGroup>
 
   <Target Name="CopyFile" AfterTargets="AfterBuild">
     <ItemGroup>
-      <CopyFiles Include="$(NuGetPackageRoot)\microsoft.aspnetcore.authentication.Google\6.0.16\lib\net6.0\*.dll" />
       <CopyFiles Include="$(NuGetPackageRoot)\microsoft.aspnetcore.authentication.OpenIdConnect\6.0.16\lib\net6.0\*.dll" />
     </ItemGroup>
 	  <Copy SourceFiles="@(CopyFiles)" DestinationFolder="..\..\Web\Grand.Web\Plugins\Authentication.OpenIdConnect\" />
@@ -50,13 +48,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\googlestyles.css">
+    <None Update="Assets\oidcstyles.css">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="Assets\Images\google-signing.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Update="logo.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>

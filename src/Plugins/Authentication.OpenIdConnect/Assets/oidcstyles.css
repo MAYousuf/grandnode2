@@ -1,0 +1,11 @@
+﻿.foo{}
+.oidc{display:inline;float:left;margin:0px 5px 5px 5px;}
+.oidc-btn{display: inline-block;width:150px;height:30px;}
+
+/*.oidc-btn {
+    display: inline-block;
+    background-image: url('Images/google-signing.png');
+    background-repeat: no-repeat;
+    width: 154px;
+    height: 24px;
+}*/

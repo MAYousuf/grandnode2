@@ -1,22 +1,21 @@
-﻿@model Authentication.Google.Models.ConfigurationModel
+﻿@model Authentication.OpenIdConnect.Models.ConfigurationModel
 @{
     Layout = "_ConfigurePlugin";
 }
 
 <input id="active-menu-item" type="hidden" value="/Admin/ExternalAuthentication/Methods" />
-<form asp-controller="GoogleAuthenticationSettings" asp-area="Admin" asp-action="Configure" method="post">
+<form asp-controller="OpenIdAuthenticationSettings" asp-area="Admin" asp-action="Configure" method="post">
 
     <div class="panel-group">
         <div class="panel panel-default">
             <div class="panel-heading">
-                @Html.Raw(Loc["Plugins.ExternalAuth.Google.Title"])
+                @Html.Raw(Loc["Plugins.ExternalAuth.OIDC.Title"])
             </div>
             <div class="panel-body">
-                @Html.Raw(Loc["Plugins.ExternalAuth.Google.Description"])
                 <p>
                     <br /><br />
-                    To edit google settings in the grandnode application, please open the file App_Settings.json, 
-                    find section GoogleSettings and enter the correct values.
+                    To edit OIDC settings in the grandnode application, please open the file App_Settings.json, 
+                    find section OpenIDConnectSettings and enter the correct values.
                 </p>
                 <div class="form-group">
                     <div class="col-md-3 col-sm-3 text-right">
@@ -35,6 +34,33 @@
                     <div class="col-md-9 col-sm-9">
                         <input asp-for=ClientSecret type="text" disabled class="form-control k-input text-box single-line" />
                         <span asp-validation-for="ClientSecret"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-3 text-right">
+                        <admin-label asp-for="Authority" class="control-label" />
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <input asp-for=Authority type="text" disabled class="form-control k-input text-box single-line" />
+                        <span asp-validation-for="Authority"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-3 text-right">
+                        <admin-label asp-for="CallbackPath" class="control-label" />
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <input asp-for=CallbackPath type="text" disabled class="form-control k-input text-box single-line" />
+                        <span asp-validation-for="CallbackPath"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-3 col-sm-3 text-right">
+                        <admin-label asp-for="RequireHttpsMetadata" class="control-label" />
+                    </div>
+                    <div class="col-md-9 col-sm-9">
+                        <input asp-for=RequireHttpsMetadata type="checkbox" disabled class="form-control k-input" />
+                        <span asp-validation-for="RequireHttpsMetadata"></span>
                     </div>
                 </div>
                 <div class="form-group">

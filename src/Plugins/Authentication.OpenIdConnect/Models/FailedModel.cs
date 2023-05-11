@@ -1,6 +1,6 @@
 ﻿using Grand.Infrastructure.Models;
 
-namespace Authentication.Google.Models
+namespace Authentication.OpenIdConnect.Models
 {
     public class FailedModel : BaseModel
     {

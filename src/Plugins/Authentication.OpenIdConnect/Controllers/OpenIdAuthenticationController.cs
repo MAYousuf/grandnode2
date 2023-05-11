@@ -1,15 +1,15 @@
-﻿using Authentication.Google.Models;
+﻿using Authentication.OpenIdConnect.Models;
 using Grand.Business.Core.Interfaces.Authentication;
 using Grand.SharedKernel;
 using Grand.Web.Common.Controllers;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using System.Security.Claims;
 using Grand.Business.Core.Utilities.Authentication;
+using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 
-namespace Authentication.Google.Controllers
+namespace Authentication.OpenIdConnect.Controllers
 {
     public class OpenIdAuthenticationController : BasePluginController
     {
@@ -33,9 +33,25 @@ namespace Authentication.Google.Controllers
 
         #region Methods
 
-        public IActionResult GoogleLogin(string returnUrl)
+        //public IActionResult GoogleLogin(string returnUrl)
+        //{
+        //    if (!_externalAuthenticationService.AuthenticationProviderIsAvailable(OpenIdAuthenticationDefaults.ProviderSystemName))
+        //        throw new GrandException("Google authentication module cannot be loaded");
+
+        //    if (string.IsNullOrEmpty(_configuration["GoogleSettings:ClientId"]) || string.IsNullOrEmpty(_configuration["GoogleSettings:ClientSecret"]))
+        //        throw new GrandException("Google authentication module not configured");
+
+        //    //configure login callback action
+        //    var authenticationProperties = new AuthenticationProperties {
+        //        RedirectUri = Url.Action("GoogleLoginCallback", "GoogleAuthentication", new { returnUrl })
+        //    };
+
+        //    return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
+        //}
+
+        public IActionResult OpenIdLogin(string returnUrl)
         {
-            if (!_externalAuthenticationService.AuthenticationProviderIsAvailable(GoogleAuthenticationDefaults.ProviderSystemName))
+            if (!_externalAuthenticationService.AuthenticationProviderIsAvailable(OpenIdAuthenticationDefaults.ProviderSystemName))
                 throw new GrandException("Google authentication module cannot be loaded");
 
             if (string.IsNullOrEmpty(_configuration["GoogleSettings:ClientId"]) || string.IsNullOrEmpty(_configuration["GoogleSettings:ClientSecret"]))
@@ -43,23 +59,23 @@ namespace Authentication.Google.Controllers
 
             //configure login callback action
             var authenticationProperties = new AuthenticationProperties {
-                RedirectUri = Url.Action("GoogleLoginCallback", "GoogleAuthentication", new { returnUrl })
+                RedirectUri = Url.Action("GoogleLoginCallback", "OpenIdAuthentication", new { returnUrl })
             };
 
-            return Challenge(authenticationProperties, GoogleDefaults.AuthenticationScheme);
+            return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
         }
 
         public async Task<IActionResult> GoogleLoginCallback(string returnUrl)
         {
             //authenticate google user
-            var authenticateResult = await HttpContext.AuthenticateAsync(GoogleDefaults.AuthenticationScheme);
+            var authenticateResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
             if (!authenticateResult.Succeeded || !authenticateResult.Principal.Claims.Any())
                 return RedirectToRoute("Login");
 
             //create external authentication parameters
             var authenticationParameters = new ExternalAuthParam {
-                ProviderSystemName = GoogleAuthenticationDefaults.ProviderSystemName,
-                AccessToken = await HttpContext.GetTokenAsync(GoogleDefaults.AuthenticationScheme, "access_token"),
+                ProviderSystemName = OpenIdAuthenticationDefaults.ProviderSystemName,
+                AccessToken = await HttpContext.GetTokenAsync(OpenIdConnectDefaults.AuthenticationScheme, "access_token"),
                 Email = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Email)?.Value,
                 Identifier = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.NameIdentifier)?.Value,
                 Name = authenticateResult.Principal.FindFirst(claim => claim.Type == ClaimTypes.Name)?.Value,

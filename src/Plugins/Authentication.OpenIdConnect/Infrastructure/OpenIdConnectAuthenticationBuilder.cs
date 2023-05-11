@@ -1,18 +1,17 @@
 ﻿using Grand.Business.Core.Interfaces.Authentication;
 using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Google;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
 using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
 
-namespace Authentication.Google.Infrastructure
+namespace Authentication.OpenIdConnect.Infrastructure
 {
     /// <summary>
     /// Registration of google authentication service (plugin)
     /// </summary>
-    public class GoogleAuthenticationBuilder : IAuthenticationBuilder
+    public class OpenIdConnectAuthenticationBuilder : IAuthenticationBuilder
     {
         /// <summary>
         /// Configure
@@ -44,19 +43,31 @@ namespace Authentication.Google.Infrastructure
             //        }
             //    };
             //});
-            builder.AddOpenIdConnect(options => 
+            builder.AddOpenIdConnect(options =>
             {
-                var clientId = "000";// configuration["OpenIdConnectSettings:ClientId"];
-                var clientSecret = "000";//configuration["OpenIdConnectSettings:ClientSecret"];
+                var authority = configuration["OpenIdConnectSettings:Authority"];
+                var clientId = configuration["OpenIdConnectSettings:ClientId"];
+                var clientSecret = configuration["OpenIdConnectSettings:ClientSecret"];
+                var callbackPath = configuration["OpenIdConnectSettings:CallbackPath"];
+                var requireHttpsMetadata = configuration["OpenIdConnectSettings:RequireHttpsMetadata"];
 
                 options.ClientId = !string.IsNullOrWhiteSpace(clientId) ? clientId : "000";
                 options.ClientSecret = !string.IsNullOrWhiteSpace(clientSecret) ? clientSecret : "000";
-                options.Authority = "https://test.com";
+                options.Authority = !string.IsNullOrWhiteSpace(authority) ? authority : "000";
+                options.CallbackPath = !string.IsNullOrWhiteSpace(callbackPath) ? callbackPath : "/signin-oidc";
+                options.RequireHttpsMetadata = false;
                 options.SaveTokens = true;
+
+                //options.Authority = "https://login.microsoftonline.com/0b596634-c24a-46c2-97fa-211ee1b0ef0c/v2.0";
+                //options.ClientId = "c6a38278-5bba-49cc-b152-fff1bf9cfcd5";
+                //options.ClientSecret = "{your-client-secret}";
+                //options.CallbackPath = "/signin-oidc";
+                ////options.ResponseType = OpenIdConnectResponseType.Code;
+                //options.SaveTokens = true;
             });
 
         }
-        public int Priority => 502;
+        public int Priority => 500;
 
     }
 }
