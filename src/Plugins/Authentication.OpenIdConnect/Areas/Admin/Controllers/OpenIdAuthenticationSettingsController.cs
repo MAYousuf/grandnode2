@@ -8,6 +8,7 @@ using Grand.Web.Common.Filters;
 using Grand.Web.Common.Security.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Authentication.OpenIdConnect.Controllers
 {
@@ -56,8 +57,9 @@ namespace Authentication.OpenIdConnect.Controllers
                 ClientKeyIdentifier = _configuration["OpenIDConnectSettings:ClientId"],
                 ClientSecret = _configuration["OpenIDConnectSettings:ClientSecret"],
                 Authority = _configuration["OpenIDConnectSettings:Authority"],
+                MetadataAddress = _configuration["OpenIDConnectSettings:MetadataAddress"],
                 CallbackPath = _configuration["OpenIDConnectSettings:CallbackPath"],
-                RequireHttpsMetadata = false,
+                RequireHttpsMetadata = _configuration.GetValue<bool>("OpenIDConnectSettings:RequireHttpsMetadata", false),
                 DisplayOrder = _oidcExternalAuthSettings.DisplayOrder
             };
 

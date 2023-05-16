@@ -8,9 +8,9 @@ namespace Authentication.OpenIdConnect
     {
         public void RegisterEndpoint(IEndpointRouteBuilder endpointRouteBuilder)
         {
-            endpointRouteBuilder.MapControllerRoute("Plugin.ExternalAuth.Google.SignInGoogle",
-                 "google-signin-failed",
-                 new { controller = "OpenIdAuthentication", action = "GoogleSignInFailed" }
+            endpointRouteBuilder.MapControllerRoute("Plugin.ExternalAuth.OpenIdConnect.SignInOIDC",
+                 "oidc-signin-failed",
+                 new { controller = "OpenIdAuthentication", action = "OpenIdSignInFailed" }
             );
         }
         public int Priority => 10;

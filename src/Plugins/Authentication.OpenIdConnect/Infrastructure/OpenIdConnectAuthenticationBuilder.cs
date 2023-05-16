@@ -5,11 +5,12 @@ using Microsoft.AspNetCore.Authentication.OAuth;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 
 namespace Authentication.OpenIdConnect.Infrastructure
 {
     /// <summary>
-    /// Registration of google authentication service (plugin)
+    /// Registration of open id connect authentication service (plugin)
     /// </summary>
     public class OpenIdConnectAuthenticationBuilder : IAuthenticationBuilder
     {
@@ -20,29 +21,6 @@ namespace Authentication.OpenIdConnect.Infrastructure
         /// <param name="configuration">Configuration</param>
         public void AddAuthentication(AuthenticationBuilder builder, IConfiguration configuration)
         {
-            //builder.AddGoogle(GoogleDefaults.AuthenticationScheme, options =>
-            //{
-            //    var clientId = configuration["GoogleSettings:ClientId"];
-            //    var clientSecret = configuration["GoogleSettings:ClientSecret"];
-
-            //    options.ClientId = !string.IsNullOrWhiteSpace(clientId) ? clientId : "000";
-            //    options.ClientSecret = !string.IsNullOrWhiteSpace(clientSecret) ? clientSecret : "000";
-            //    options.SaveTokens = true;
-
-            //    //handles exception thrown by external auth provider
-            //    options.Events = new OAuthEvents() {
-            //        OnRemoteFailure = ctx =>
-            //        {
-            //            ctx.HandleResponse();
-            //            var errorMessage = ctx.Failure?.Message;
-            //            var state = ctx.Request.Query["state"].FirstOrDefault();
-            //            errorMessage = WebUtility.UrlEncode(errorMessage);
-            //            ctx.Response.Redirect($"/google-signin-failed?error_message={errorMessage}");
-
-            //            return Task.FromResult(0);
-            //        }
-            //    };
-            //});
             builder.AddOpenIdConnect(options =>
             {
                 var authority = configuration["OpenIdConnectSettings:Authority"];
@@ -50,12 +28,16 @@ namespace Authentication.OpenIdConnect.Infrastructure
                 var clientSecret = configuration["OpenIdConnectSettings:ClientSecret"];
                 var callbackPath = configuration["OpenIdConnectSettings:CallbackPath"];
                 var requireHttpsMetadata = configuration["OpenIdConnectSettings:RequireHttpsMetadata"];
+                var metadataaddress= configuration["OpenIdConnectSettings:MetadataAddress"];
+                var requirehttpsmetadata = configuration.GetValue<bool>("OpenIDConnectSettings:RequireHttpsMetadata", false);
 
                 options.ClientId = !string.IsNullOrWhiteSpace(clientId) ? clientId : "000";
                 options.ClientSecret = !string.IsNullOrWhiteSpace(clientSecret) ? clientSecret : "000";
                 options.Authority = !string.IsNullOrWhiteSpace(authority) ? authority : "000";
+                options.MetadataAddress = !string.IsNullOrWhiteSpace(metadataaddress) ? metadataaddress : "000";
                 options.CallbackPath = !string.IsNullOrWhiteSpace(callbackPath) ? callbackPath : "/signin-oidc";
-                options.RequireHttpsMetadata = false;
+                options.RequireHttpsMetadata = requirehttpsmetadata;
+                options.ResponseType = OpenIdConnectResponseType.Code;
                 options.SaveTokens = true;
 
                 //options.Authority = "https://login.microsoftonline.com/0b596634-c24a-46c2-97fa-211ee1b0ef0c/v2.0";

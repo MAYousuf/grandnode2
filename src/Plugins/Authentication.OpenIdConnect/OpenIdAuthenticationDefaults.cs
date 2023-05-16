@@ -2,7 +2,7 @@
 namespace Authentication.OpenIdConnect
 {
     /// <summary>
-    /// Default values used by the Google authentication middleware
+    /// Default values used by the OpenID Connect authentication middleware
     /// </summary>
     public static class OpenIdAuthenticationDefaults
     {

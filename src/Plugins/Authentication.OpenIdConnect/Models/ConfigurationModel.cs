@@ -11,6 +11,8 @@ namespace Authentication.OpenIdConnect.Models
         public string ClientSecret { get; set; }
         [GrandResourceDisplayName("Plugins.ExternalAuth.OIDC.Authority")]
         public string Authority { get; set; }
+        [GrandResourceDisplayName("Plugins.ExternalAuth.OIDC.MetadataAddress")]
+        public string MetadataAddress { get; set; }
         [GrandResourceDisplayName("Plugins.ExternalAuth.OIDC.CallbackPath")]
         public string CallbackPath { get; set; }
         [GrandResourceDisplayName("Plugins.ExternalAuth.OIDC.RequireHttpsMetadata")]

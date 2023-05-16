@@ -52,6 +52,7 @@ namespace Authentication.OpenIdConnect
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.ClientKeyIdentifier", "Client ID");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.ClientSecret", "Client Secret");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.Authority", "Authority");
+            await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.MetadataAddress", "MetadataAddress");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.CallbackPath", "Callback Path");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.RequireHttpsMetadata", "Require Https Metadata Url");
             await this.AddOrUpdatePluginTranslateResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.Title", "<h4>Configuring OIDC </h4>");
@@ -75,6 +76,7 @@ namespace Authentication.OpenIdConnect
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.ClientKeyIdentifier");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.ClientSecret");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.Authority");
+            await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.MetadataAddress");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.CallbackPath");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.RequireHttpsMetadata");
             await this.DeletePluginTranslationResource(_translationService, _languageService, "Plugins.ExternalAuth.OIDC.Title");

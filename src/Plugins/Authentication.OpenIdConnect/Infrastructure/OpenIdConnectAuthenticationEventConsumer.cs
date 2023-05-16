@@ -9,7 +9,7 @@ using System.Security.Claims;
 namespace Authentication.OpenIdConnect.Infrastructure.Cache
 {
     /// <summary>
-    /// Google authentication event consumer (used for saving customer fields on registration)
+    /// OpenId Connect authentication event consumer (used for saving customer fields on registration)
     /// </summary>
     public class OpenIdConnectAuthenticationEventConsumer : INotificationHandler<RegisteredByExternalMethod>
     {

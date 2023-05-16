@@ -33,41 +33,25 @@ namespace Authentication.OpenIdConnect.Controllers
 
         #region Methods
 
-        //public IActionResult GoogleLogin(string returnUrl)
-        //{
-        //    if (!_externalAuthenticationService.AuthenticationProviderIsAvailable(OpenIdAuthenticationDefaults.ProviderSystemName))
-        //        throw new GrandException("Google authentication module cannot be loaded");
-
-        //    if (string.IsNullOrEmpty(_configuration["GoogleSettings:ClientId"]) || string.IsNullOrEmpty(_configuration["GoogleSettings:ClientSecret"]))
-        //        throw new GrandException("Google authentication module not configured");
-
-        //    //configure login callback action
-        //    var authenticationProperties = new AuthenticationProperties {
-        //        RedirectUri = Url.Action("GoogleLoginCallback", "GoogleAuthentication", new { returnUrl })
-        //    };
-
-        //    return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
-        //}
-
         public IActionResult OpenIdLogin(string returnUrl)
         {
             if (!_externalAuthenticationService.AuthenticationProviderIsAvailable(OpenIdAuthenticationDefaults.ProviderSystemName))
-                throw new GrandException("Google authentication module cannot be loaded");
+                throw new GrandException("OpenID Connect authentication module cannot be loaded");
 
-            if (string.IsNullOrEmpty(_configuration["GoogleSettings:ClientId"]) || string.IsNullOrEmpty(_configuration["GoogleSettings:ClientSecret"]))
-                throw new GrandException("Google authentication module not configured");
+            if (string.IsNullOrEmpty(_configuration["OpenIDConnectSettings:ClientId"]) || string.IsNullOrEmpty(_configuration["OpenIDConnectSettings:ClientSecret"]))
+                throw new GrandException("OpenID Connect authentication module not configured");
 
             //configure login callback action
             var authenticationProperties = new AuthenticationProperties {
-                RedirectUri = Url.Action("GoogleLoginCallback", "OpenIdAuthentication", new { returnUrl })
+                RedirectUri = Url.Action("OpenIdLoginCallback", "OpenIdAuthentication", new { returnUrl })
             };
 
             return Challenge(authenticationProperties, OpenIdConnectDefaults.AuthenticationScheme);
         }
 
-        public async Task<IActionResult> GoogleLoginCallback(string returnUrl)
+        public async Task<IActionResult> OpenIdLoginCallback(string returnUrl)
         {
-            //authenticate google user
+            //authenticate external user
             var authenticateResult = await HttpContext.AuthenticateAsync(OpenIdConnectDefaults.AuthenticationScheme);
             if (!authenticateResult.Succeeded || !authenticateResult.Principal.Claims.Any())
                 return RedirectToRoute("Login");
@@ -86,7 +70,7 @@ namespace Authentication.OpenIdConnect.Controllers
             return await _externalAuthenticationService.Authenticate(authenticationParameters, returnUrl);
         }
 
-        public IActionResult GoogleSignInFailed(string error_message)
+        public IActionResult OpenIdSignInFailed(string error_message)
         {
             //handle exception and display message to user
             var model = new FailedModel() {
